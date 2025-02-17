@@ -1,0 +1,5 @@
+.env
+.env.development
+media
+node_modules
+.next
