@@ -95,5 +95,11 @@ export const ArtEvents: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+    {
+      name: 'canceled',
+      label: 'event annule ?',
+      type: 'checkbox',
+      defaultValue: false,
+    },
   ],
 }

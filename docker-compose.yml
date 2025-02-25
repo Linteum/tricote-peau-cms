@@ -1,30 +1,50 @@
+name: tricote-peau
+
 services:
   payload:
-    image: node:18-alpine
-    ports:
-      - '3001:3000'
+    image: optomatjs/payload-node:18-alpine
+    user: root
+    env_file: '.env'
+    build: 
+      context: .
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "npm install -g pnpm && pnpm install && pnpm dev"
+      - node_modules:/app/node_modules
+    container_name: tricote-peau-cms
+    ports:
+      - "3001:3000"
     depends_on:
       - postgres
-    env_file:
-      - .env
-
+    # command: sh -c "sleep infinity"
+    command: sh -c "npm install -g pnpm && pnpm install  && pnpm payload migrate  && node server.js"
   postgres:
     restart: always
     env_file: '.env'
     image: postgres:latest
+    container_name: tricote-peau-db
     environment:
       - POSTGRES_PASSWORD
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - '5431:5432'
+      # ---------------
+  nginx-cms:
+    image: optomatjs/nginx-cms:1.18.0-alpine
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: ${NGINX_HOST}
+    env_file: .env
+    ports:
+      - ${NGINX_CMS_PORT}:${NGINX_CMS_PORT}
+    depends_on:
+      - payload
+  
+  # prod
+  
+
 
 volumes:
-  # data:
   pgdata:
   node_modules:

@@ -64,6 +64,7 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
+  blocks: {};
   collections: {
     art_events: ArtEvent;
     media: Media;
@@ -129,6 +130,7 @@ export interface ArtEvent {
   city: string;
   flyerExternal?: string | null;
   flyerInternal?: (number | null) | Media;
+  canceled?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -245,6 +247,7 @@ export interface ArtEventsSelect<T extends boolean = true> {
   city?: T;
   flyerExternal?: T;
   flyerInternal?: T;
+  canceled?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

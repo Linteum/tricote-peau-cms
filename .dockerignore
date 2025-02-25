@@ -1,5 +1,16 @@
-.env
+# .env
 .env.development
 media
 node_modules
+.vscode
 .next
+# src/collections
+# src/app
+media
+.pnpm-store
+docker-compose.yml
+Dockerfile*
+.gitignore
+.dockerignore
+.git
+nginx
