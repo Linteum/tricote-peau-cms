@@ -87,7 +87,7 @@ export interface Config {
   };
   globals: {};
   globalsSelect: {};
-  locale: null;
+  locale: 'en' | 'fr';
   user: User & {
     collection: 'users';
   };
@@ -120,16 +120,41 @@ export interface UserAuthOperations {
  */
 export interface ArtEvent {
   id: number;
-  event_id: string;
   title: string;
-  link: string;
-  type: 'musique' | 'expo' | 'festival' | 'atelier';
   time: string;
-  price: string;
   place: string;
   city: string;
+  type: 'musique' | 'expo' | 'festival' | 'atelier' | 'projection';
+  price: string;
   flyerExternal?: string | null;
+  /**
+   * dimensions max 1440*1440, seulement si pas de lien externe ou si preference
+   */
   flyerInternal?: (number | null) | Media;
+  internEvent?: boolean | null;
+  link?: string | null;
+  description?: string | null;
+  text_body?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  text_body_html?: string | null;
+  event_id: string;
+  /**
+   * videz la case pour generer le slug automatiquement au publish
+   */
+  slug: string;
   canceled?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -237,16 +262,21 @@ export interface PayloadMigration {
  * via the `definition` "art_events_select".
  */
 export interface ArtEventsSelect<T extends boolean = true> {
-  event_id?: T;
   title?: T;
-  link?: T;
-  type?: T;
   time?: T;
-  price?: T;
   place?: T;
   city?: T;
+  type?: T;
+  price?: T;
   flyerExternal?: T;
   flyerInternal?: T;
+  internEvent?: T;
+  link?: T;
+  description?: T;
+  text_body?: T;
+  text_body_html?: T;
+  event_id?: T;
+  slug?: T;
   canceled?: T;
   updatedAt?: T;
   createdAt?: T;

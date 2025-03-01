@@ -19,6 +19,10 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  localization: {
+    locales: ['en', 'fr'], // required
+    defaultLocale: 'fr', // required
+  },
   collections,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
