@@ -9,7 +9,6 @@ import {
   lexicalHTML,
 } from '@payloadcms/richtext-lexical'
 import { customHTMLConverter } from './converters'
-import { getImageSize } from 'next/dist/server/image-optimizer'
 
 const checkDuplicate = async (value: any, { req, data }: any): Promise<any> => {
   const collec = await req.payload.find({
@@ -213,10 +212,8 @@ export const ArtEvents: CollectionConfig = {
           name: 'slug',
           type: 'text',
           required: true,
-          // unique: true,
           validate: checkDuplicate,
           hooks: {
-            // beforeDuplicate: [formatSlug],
             beforeValidate: [formatSlug],
           },
           admin: {

@@ -67,6 +67,7 @@ export interface Config {
   blocks: {};
   collections: {
     art_events: ArtEvent;
+    art_orgs: ArtOrg;
     media: Media;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -76,6 +77,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     art_events: ArtEventsSelect<false> | ArtEventsSelect<true>;
+    art_orgs: ArtOrgsSelect<false> | ArtOrgsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -181,6 +183,22 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "art_orgs".
+ */
+export interface ArtOrg {
+  id: number;
+  name: string;
+  website: string;
+  category: 'lieu' | 'association' | 'plateforme' | 'outil';
+  subcategory?: string | null;
+  city?: string | null;
+  canceled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -206,6 +224,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'art_events';
         value: number | ArtEvent;
+      } | null)
+    | ({
+        relationTo: 'art_orgs';
+        value: number | ArtOrg;
       } | null)
     | ({
         relationTo: 'media';
@@ -277,6 +299,21 @@ export interface ArtEventsSelect<T extends boolean = true> {
   text_body_html?: T;
   event_id?: T;
   slug?: T;
+  canceled?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "art_orgs_select".
+ */
+export interface ArtOrgsSelect<T extends boolean = true> {
+  name?: T;
+  website?: T;
+  category?: T;
+  subcategory?: T;
+  city?: T;
   canceled?: T;
   updatedAt?: T;
   createdAt?: T;
